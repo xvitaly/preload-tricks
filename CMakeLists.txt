@@ -17,6 +17,12 @@ project(preload-tricks
     LANGUAGES C
 )
 
+# =======================
+# === Project options ===
+# =======================
+
+option(BUILD_TESTS "Build and run unit tests" OFF)
+
 # =============================
 # === Tricks library target ===
 # =============================
@@ -34,9 +40,9 @@ add_library(${TRICKS_LIBRARY_NAME} SHARED
 set_property(TARGET ${TRICKS_LIBRARY_NAME} PROPERTY VERSION ${CMAKE_PROJECT_VERSION})
 set_property(TARGET ${TRICKS_LIBRARY_NAME} PROPERTY SOVERSION 0)
 
-# =============================
-# === Tricks example target ===
-# =============================
+# =================================
+# === Root check example target ===
+# =================================
 
 set(TRICKS_EXAMPLE_ROOT_NAME "example-root")
 
@@ -47,3 +53,14 @@ set(TRICKS_EXAMPLE_ROOT_SOURCES
 add_executable(${TRICKS_EXAMPLE_ROOT_NAME}
     ${TRICKS_EXAMPLE_ROOT_SOURCES}
 )
+
+add_test(NAME ${TRICKS_EXAMPLE_ROOT_NAME} COMMAND ${TRICKS_EXAMPLE_ROOT_NAME})
+set_property(TEST ${TRICKS_EXAMPLE_ROOT_NAME} APPEND PROPERTY ENVIRONMENT "LD_PRELOAD=${CMAKE_CURRENT_BINARY_DIR}/lib${TRICKS_LIBRARY_NAME}.so")
+
+# ====================
+# === Tests export ===
+# ====================
+
+if (BUILD_TESTS)
+    enable_testing()
+endif()

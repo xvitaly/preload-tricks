@@ -21,7 +21,7 @@ project(preload-tricks
 # === Project options ===
 # =======================
 
-option(BUILD_TESTS "Build and run unit tests" OFF)
+option(ENABLE_TESTS "Build and run unit tests" OFF)
 
 # =============================
 # === Tricks library target ===
@@ -54,13 +54,24 @@ add_executable(${TRICKS_EXAMPLE_ROOT_NAME}
     ${TRICKS_EXAMPLE_ROOT_SOURCES}
 )
 
-add_test(NAME ${TRICKS_EXAMPLE_ROOT_NAME} COMMAND ${TRICKS_EXAMPLE_ROOT_NAME})
-set_property(TEST ${TRICKS_EXAMPLE_ROOT_NAME} APPEND PROPERTY ENVIRONMENT "LD_PRELOAD=${CMAKE_CURRENT_BINARY_DIR}/lib${TRICKS_LIBRARY_NAME}.so")
+# ===============================
+# === Root check tests target ===
+# ===============================
+
+set(TRICKS_EXAMPLE_ROOT_TEST "${TRICKS_EXAMPLE_ROOT_NAME}-test")
+
+add_test(NAME ${TRICKS_EXAMPLE_ROOT_TEST}
+    COMMAND ${TRICKS_EXAMPLE_ROOT_NAME}
+)
+
+set_property(TEST ${TRICKS_EXAMPLE_ROOT_TEST}
+    APPEND PROPERTY ENVIRONMENT "LD_PRELOAD=${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:${TRICKS_LIBRARY_NAME}>"
+)
 
 # ====================
 # === Tests export ===
 # ====================
 
-if (BUILD_TESTS)
+if (ENABLE_TESTS)
     enable_testing()
 endif()

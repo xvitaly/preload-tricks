@@ -15,7 +15,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS:BOOL=ON
 cmake --build build
 ```
 
-## Test application (nornal run)
+## Test application (regular run)
 
 ```
 cd build

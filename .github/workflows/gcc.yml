@@ -36,6 +36,3 @@ jobs:
         pushd build
         ctest --output-on-failure
         popd
-    - name: Installing project
-      run: |
-        sudo cmake --install build

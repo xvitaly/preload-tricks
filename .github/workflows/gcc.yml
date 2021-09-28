@@ -29,7 +29,7 @@ jobs:
         mkdir build
     - name: Building with CMake
       run: |
-        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS:BOOL=ON
         cmake --build build
     - name: Running unit tests with CTest
       run: |
